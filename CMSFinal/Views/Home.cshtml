@@ -34,11 +34,10 @@
                 	@foreach (var item in selection)
                 	{
                         <div class="col">
-                            <a href="@item.Url()">
                             <div class="card">
                                 <div class="img">
                                     @{
-                                        IPublishedContent productImageThumbnail = item.Value<IPublishedContent>("productImage");
+                                        IPublishedContent productImageThumbnail = item.Value<IPublishedContent>("productPicture");
                                     }
                                     <img src="@productImageThumbnail.MediaUrl()" alt="product-image">
                                 </div>
@@ -96,7 +95,6 @@
                                     <p class="card-price">$@item.Value("productPrice")</p>
                                 </div>
                             </div>
-                            </a>
                         </div>
                 	}
             </div>
