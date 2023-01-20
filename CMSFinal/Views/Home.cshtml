@@ -1,5 +1,6 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core.Models.PublishedContent;
 @{
 	Layout = "_Layout.cshtml";
 	ViewData["Title"] = @Model.Value("homeTitle");
@@ -19,160 +20,86 @@
     <img src="/images/showcase-img-2.svg" class="img-right" alt="showcase-img-2">
 </section>
 <section class="featured-products">
-        <div class="container">
-            <div class="row row-cols-1 row-cols-md-4 g-4">
-                <div class="col">
-                    <div class="card">
-                        <div class="img">
-                            <img src="/images/card-img.jpg" alt="">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            <div class="col">
+                @{
+	                var selection = Umbraco.Content(Guid.Parse("734cf942-2d2b-4e5f-824b-7f9840aaaed2"))
+                                    .ChildrenOfType("productItem")
+                                    .Where(x => x.IsVisible())
+                                    .OrderByDescending(x => x.CreateDate);
+
+                }
+
+                	@foreach (var item in selection)
+                	{
+                        <div class="col">
+                            <a href="@item.Url()">
+                            <div class="card">
+                                <div class="img">
+                                    @{
+                                        IPublishedContent productImageThumbnail = item.Value<IPublishedContent>("productImage");
+                                    }
+                                    <img src="@productImageThumbnail.MediaUrl()" alt="product-image">
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-category">@item.Value("productCategory")</p>
+                                    <h5 class="card-title">@item.Value("productName")</h5>
+                                    <p class="card-rating">
+                                        @{
+                                            var sliderRating = item.Value<decimal>("singleValueSlider");
+                                            
+                                            if (sliderRating == 5){
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                            }
+                                            else if (sliderRating == 4){
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                            }
+                                            else if (sliderRating == 3){
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                            }
+                                            else if (sliderRating == 2){
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                            }
+                                            else if (sliderRating == 1){
+                                                <i class="fa-sharp fa-solid fa-star"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                            }
+                                            else {
+                                                <i class="fa-light fa-star-sharp"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                                <i class="fa-light fa-star-sharp"></i>
+                                            }
+                                        }
+                                    </p>
+                                    <p class="card-price">$@item.Value("productPrice")</p>
+                                </div>
+                            </div>
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p class="card-category">Category</p>
-                            <h5 class="card-title">Modern Black Blouse</h5>
-                            <p class="card-rating">
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                            </p>
-                            <p class="card-price">$35.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="img">
-                            <img src="/images/card-img.jpg" alt="">
-                        </div>
-                        <div class="card-body">
-                            <p class="card-category">Category</p>
-                            <h5 class="card-title">Modern Black Blouse</h5>
-                            <p class="card-rating">
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                            </p>
-                            <p class="card-price">$35.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="img">
-                            <img src="/images/card-img.jpg" alt="">
-                        </div>
-                        <div class="card-body">
-                            <p class="card-category">Category</p>
-                            <h5 class="card-title">Modern Black Blouse</h5>
-                            <p class="card-rating">
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                            </p>
-                            <p class="card-price">$35.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="img">
-                            <img src="/images/card-img.jpg" alt="">
-                        </div>
-                        <div class="card-body">
-                            <p class="card-category">Category</p>
-                            <h5 class="card-title">Modern Black Blouse</h5>
-                            <p class="card-rating">
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                            </p>
-                            <p class="card-price">$35.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="img">
-                            <img src="/images/card-img.jpg" alt="">
-                        </div>
-                        <div class="card-body">
-                            <p class="card-category">Category</p>
-                            <h5 class="card-title">Modern Black Blouse</h5>
-                            <p class="card-rating">
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                            </p>
-                            <p class="card-price">$35.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="img">
-                            <img src="/images/card-img.jpg" alt="">
-                        </div>
-                        <div class="card-body">
-                            <p class="card-category">Category</p>
-                            <h5 class="card-title">Modern Black Blouse</h5>
-                            <p class="card-rating">
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                            </p>
-                            <p class="card-price">$35.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="img">
-                            <img src="/images/card-img.jpg" alt="">
-                        </div>
-                        <div class="card-body">
-                            <p class="card-category">Category</p>
-                            <h5 class="card-title">Modern Black Blouse</h5>
-                            <p class="card-rating">
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                            </p>
-                            <p class="card-price">$35.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="img">
-                            <img src="/images/card-img.jpg" alt="">
-                        </div>
-                        <div class="card-body">
-                            <p class="card-category">Category</p>
-                            <h5 class="card-title">Modern Black Blouse</h5>
-                            <p class="card-rating">
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                                <i class="fa-sharp fa-solid fa-star"></i>
-                            </p>
-                            <p class="card-price">$35.00</p>
-                        </div>
-                    </div>
-                </div>
+                	}
             </div>
         </div>
-    </section>
+    </div>
+</section>
