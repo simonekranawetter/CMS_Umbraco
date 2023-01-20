@@ -46,7 +46,7 @@
                                     <h5 class="card-title">@item.Value("productName")</h5>
                                     <p class="card-rating">
                                         @{
-                                            var sliderRating = item.Value<decimal>("singleValueSlider");
+                                            var sliderRating = item.Value<int>("singleValueSlider");
                                             
                                             if (sliderRating == 5){
                                                 <i class="fa-sharp fa-solid fa-star"></i>
